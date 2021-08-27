@@ -1,0 +1,52 @@
+#!/bin/bash
+
+(
+# Jump to script directory
+cd ~/apps/node-query-connection
+
+#
+if [[ -z "$1" ]]; then
+  echo "Please specify action 'start|stop|view'"
+  exit;
+fi
+
+appname=`cat .appname`
+session_name=$appname
+session=`screen -list | grep "$session_name"`
+
+if [[ "$1" = "start" || "$1" = "run" ]]; then
+  if [[ ! -z "$session" ]]; then
+    ./run stop
+    exit;
+  fi
+
+  screen -S "$session_name" -dm bash -c "./run.sh; exec bash"
+
+  echo "Info: Start session."
+
+  if [[ -z "$2" ]]; then
+    ./run view
+  fi
+elif [ "$1" = "stop" ]; then
+  if [[ ! -z "$session" ]]; then
+    screen -X -S "$session_name" stuff "^C"
+    #sleep 2
+
+    screen -X -S "$session_name" quit
+    echo "Info: Stopped app."
+    exit;
+  fi
+
+  echo "Error: No session."
+elif [ "$1" = "view" ]; then
+  if [[ -z "$session" ]]; then
+    echo "Error: App isn't running '$session_name'."
+    exit;
+  fi
+
+  screen -dr "$session_name"
+fi
+
+screen -ls
+#screen -S "$session_name" -dm bash -c "node index.js $1"
+)

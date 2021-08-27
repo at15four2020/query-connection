@@ -1,0 +1,25 @@
+{
+  "name": "query-connection",
+  "version": "1.2.0",
+  "description": "This is a lightweight crossplatform (Win/Linux) network connection query library.",
+  "main": "index.js",
+  "scripts": {
+    "production": "NODE_ENV=production node app.js"
+  },
+  "keywords": [
+    "crossplatform",
+    "linux",
+    "forwarding",
+    "validate",
+    "wan",
+    "port",
+    "pid",
+    "async",
+    "portforward"
+  ],
+  "author": "-nom-",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
